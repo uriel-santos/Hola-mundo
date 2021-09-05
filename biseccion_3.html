@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="est1.css">
+    <title>Metodo de biseccion</title>
+
+</head>
+
+<body style="background-color: black; color: white;">
+    <p>Metodo de biseccion</p>
+    <p>Ingrese los datos, Por favor ingrese los datos en una ecuacion en forma  "ax^3 + bx^2 + cx + d = 0" </p>
+    <div>
+        <input type="number" id="num1" value=0>
+        <label>x^3 +</label><input type="number" id="num2" value=0>
+        <label>x^2 +</label><input type="number" id="num3" value=0>
+        <label>x +</label><input type="number" id="num4" value=0><label>=0</label>
+        <p></p>
+        <label>Los parametros deberan dar como resultado un numero negativo en el inferior y positivo en el superior para
+            poder entregar una raiz</label>
+        <p></p>
+        <label>Ingrese el parametro inferior: </label><input type="number" id="parametro_a" value=0><label> Resultado en la función: </label><label id="l1"></label>
+        <p></p>
+        <label>Ingrese el parametro superior: </label><input type="number" id="parametro_b" value=0><label> Resultado en la función: </label><label id="l2"></label>
+    </div>
+    <div>
+        <input type="button" value="calcular raiz" onclick=calcular()>
+        <p></p>
+
+        <label>La raiz es: </label> <label id="l3">0</label><p></p>
+        <label>El valor de f en r es =   </label> <label id="l4">0</label>
+
+        <table id="t1" style="background-color: cadetblue; color: whitesmoke; width: 100%; border: 1px solid white;">
+            <tr>
+                <th>n</th>
+                <th>xa</th>
+                <th>f(xa)</th>
+                <th>xb</th>
+                <th>f(xb)</th>
+                <th>xr</th>
+                <th>f(xr)</th>
+                <th>error</th>
+            </tr>
+        </table>
+
+    </div>
+
+    <script>
+        function funcion_p(x) {
+            var var1 = document.getElementById("num1").value;
+            var var2 = document.getElementById("num2").value;
+            var var3 = document.getElementById("num3").value;
+            var var4 = document.getElementById("num4").value;
+            var1 = var1 * (Math.pow(x,3)); var2 = var2 * (Math.pow(x,2)); var3 =Math.pow(var3 * x,1); var4=Math.pow(var4,1);
+            var valor = var1+ var2+ var3+ var4;
+            
+            return valor;
+        }
+        function tabl(c1, c2, c3, c4, c5, c6, c7, c8) {
+            let c = [c8,c7,c6,c5,c4,c3,c2,c1];
+            var table = document.getElementById("t1");
+            var rowCount = table.rows.length;
+            var row = table.insertRow(rowCount);
+            for(var j = 0; j < 8; j++){
+                var cell1 = row.insertCell(0);
+                var element1 = document.createElement("label");
+                element1.textContent =c[j];
+                cell1.appendChild(element1);
+            }  
+        }
+        function cta(){
+            try{
+            var table = document.getElementById("t1");
+            var rowCount = table.rows.length;
+            while(rowCount > 2){
+                var rowCount = table.rows.length;
+                table.deleteRow((rowCount-1));
+            }
+            }catch(e){
+                alert(e);
+            }
+        }
+    </script>
+    
+    
+    <script>
+        function calcular() {
+            cta();
+            var a = Math.pow(document.getElementById("parametro_a").value,1);
+            var b = Math.pow(document.getElementById("parametro_b").value,1);
+            var c1=0.0;
+            var c2=0.0;
+
+            if (funcion_p(a)*funcion_p(b)>0) {
+                alert(error);
+            }
+            var n = 1;
+            while (true) {
+                if (c1 != 0){
+                    if(c2 == 0){
+                        c2 = (a + b) / 2;
+                      }else{
+                        c1 = c2;
+                        c2 = (a + b) / 2;
+                    }
+                }else{
+                    c1 = (a + b) / 2;
+                }
+                if(c2 != 0){  
+                    tabl(n,a,funcion_p(a),b,funcion_p(b),c2,funcion_p(c2),(c2-c1));
+                        n++;
+                    if (Math.abs(c2-c1) < 0.0002) {
+                        //alert("La raiz estimada es "+c);
+                        //alert("El valor de f en r es =  "+funcion_p(c));
+                        document.getElementById("l3").innerHTML = c2;
+                        document.getElementById("l4").innerHTML = funcion_p(c2);
+                        return;
+                    }
+                    if ((funcion_p(a)*funcion_p(c2))<0) {
+                        b = c2;
+                    } else {
+                        a = c2;
+                    }
+                }else {
+                    tabl(n,a,funcion_p(a),b,funcion_p(b),c1,funcion_p(c1),"----");
+                    n++;
+                    if (funcion_p(c1) < 0) {
+                        a = c1;
+                    }else{
+                        b = c1;
+                    }
+                }
+            }
+
+        }
+    </script>
+</body>
+
+</html>
